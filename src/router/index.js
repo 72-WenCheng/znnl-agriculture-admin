@@ -87,6 +87,62 @@ export const constantRoutes = [
     component: (resolve) => require(['@/views/error/401'], resolve),
     hidden: true
   },
+  // 新增：线上商城
+  {
+    path: '/mall',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        component: (resolve) => require(['@/views/mall/index'], resolve),
+        name: 'MallIndex',
+        meta: { title: '线上商城', icon: 'shop-fill', noCache: true }
+      },
+      {
+        path: 'detail',
+        component: (resolve) => require(['@/views/mall/detail'], resolve),
+        name: 'MallDetail',
+        hidden: true,
+        meta: { title: '商品详情', noCache: true }
+      },
+      {
+        path: 'cart',
+        component: (resolve) => require(['@/views/mall/cart'], resolve),
+        name: 'MallCart',
+        hidden: true,
+        meta: { title: '购物车', noCache: true }
+      },
+      {
+        path: 'order/detail',
+        component: (resolve) => require(['@/views/mall/orderDetail'], resolve),
+        name: 'MallOrderDetail',
+        hidden: true,
+        meta: { title: '订单详情', noCache: true }
+      },
+      {
+        path: 'order/list',
+        component: (resolve) => require(['@/views/mall/orderList'], resolve),
+        name: 'MallOrderList',
+        hidden: true,
+        meta: { title: '订单列表', noCache: true }
+      }
+    ]
+  },
+  // 新增：参观预约
+  {
+    path: '/booking',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        component: (resolve) => require(['@/views/booking/index'], resolve),
+        name: 'BookingIndex',
+        meta: { title: '参观预约', icon: 'online', noCache: true }
+      }
+    ]
+  },
   //XXX:修改首页的路由
 //   {
 //     path: '',

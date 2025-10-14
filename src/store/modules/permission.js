@@ -33,6 +33,11 @@ const permission = {
       return new Promise(resolve => {
         // 向后端请求路由数据
         getRouters().then(res => {
+          // 在后端菜单树中，将“线上商城、参观预约”作为与“产品溯源”同级的菜单，插入在其后
+          try {
+            injectMallBookingAsSiblings(res.data)
+          } catch (e) { /* 忽略注入失败，保持原状 */ }
+
           //找到第一个不是外链的数据
           let lastRoute =  filterLastRouter(res.data);
           res.data.unshift({
@@ -60,6 +65,39 @@ const permission = {
       })
     }
   }
+}
+// 递归查找“产品溯源”所在层级，并在其后插入两个同级菜单
+function injectMallBookingAsSiblings(list) {
+  if (!Array.isArray(list)) return false
+  for (let i = 0; i < list.length; i++) {
+    const r = list[i]
+    if (r.meta && r.meta.title && r.meta.title.indexOf('产品溯源') !== -1) {
+      const mallNode = {
+        path: '/mall',
+        component: 'Layout',
+        meta: { title: '线上商城', icon: 'shop-fill' },
+        children: [
+          { path: 'index', name: 'MallIndex', component: 'mall/index', meta: { title: '线上商城', icon: 'shop-fill', noCache: true } }
+        ]
+      }
+      const bookingNode = {
+        path: '/booking',
+        component: 'Layout',
+        meta: { title: '参观预约', icon: 'online' },
+        children: [
+          { path: 'index', name: 'BookingIndex', component: 'booking/index', meta: { title: '参观预约', icon: 'online', noCache: true } }
+        ]
+      }
+      // 插入在“产品溯源”之后
+      list.splice(i + 1, 0, mallNode, bookingNode)
+      return true
+    }
+    if (r.children && r.children.length) {
+      const ok = injectMallBookingAsSiblings(r.children)
+      if (ok) return true
+    }
+  }
+  return false
 }
 //递归找寻叶子节点
 function filterLastRouter(route,fullPath=''){
