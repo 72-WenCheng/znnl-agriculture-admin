@@ -26,7 +26,7 @@
       <el-row :gutter="16">
         <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="item in recommends" :key="item.sellproId" style="margin-bottom:16px">
           <el-card :body-style="{padding:'10px'}" class="product-card" @click.native="goDetail(item.sellproId)">
-            <img :src="item.sellproImg" class="cover" />
+            <img :src="imgUrl(item.sellproImg)" class="cover" />
             <div class="title">{{ item.sellproName }}</div>
           </el-card>
         </el-col>

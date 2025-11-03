@@ -18,7 +18,7 @@
         <el-button size="small" style="margin-left:8px" @click="$router.push('/mall/cart')">购物车</el-button>
       </div>
       <el-row :gutter="16">
-        <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="item in list" :key="item.sellproId" style="margin-bottom:16px">
+        <el-col :xs="24" :sm="12" :md="6" :lg="4" v-for="item in list" :key="item.sellproId" style="margin-bottom:16px">
           <el-card class="product-card" :body-style="{padding:'10px'}" @click.native="openDetail(item)">
             <img :src="imgUrl(item.sellproImg || item.cover)" class="cover" />
             <div class="title">{{ item.sellproName }}</div>
@@ -44,7 +44,7 @@ export default {
   name: 'MallIndex',
   data() {
     return {
-      query: { pageNum: 1, pageSize: 12, keyword: '', category: '', order: 'default', minPrice: undefined, maxPrice: undefined },
+      query: { pageNum: 1, pageSize: 10, keyword: '', category: '', order: 'default', minPrice: undefined, maxPrice: undefined },
       list: [],
       total: 0,
       categories: []

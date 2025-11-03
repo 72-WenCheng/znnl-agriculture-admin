@@ -5,7 +5,7 @@
         <el-table-column label="商品" min-width="220">
           <template slot-scope="{ row }">
             <div class="cell-flex">
-              <img :src="row.sellproImg" class="thumb" />
+              <img :src="imgUrl(row.sellproImg)" class="thumb" />
               <div>
                 <div class="name">{{ row.sellproName }}</div>
                 <div class="sub">规格：{{ row.sellproGuige || '—' }}｜产地：{{ row.sellproArea || '—' }}</div>
@@ -56,6 +56,11 @@ export default {
     amount() { return this.cartAmount }
   },
   methods: {
+    imgUrl(u) {
+      if (!u) return ''
+      const base = process.env.VUE_APP_BASE_API || ''
+      return u.startsWith('/profile') ? `${base}${u}` : u
+    },
     updateQty(row) { this.$store.dispatch('cart/updateQty', { id: row.sellproId, quantity: row.quantity }) },
     remove(row) { this.$store.dispatch('cart/removeFromCart', row.sellproId) },
     async checkout() {
